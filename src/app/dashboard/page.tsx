@@ -13,7 +13,6 @@ import {
   Map,
   RotateCcw,
   CheckCircle2,
-  AlertCircle,
 } from 'lucide-react';
 import { useSimulationStore } from '@/store/simulationStore';
 import { useQuizStore } from '@/store/quizStore';
@@ -22,13 +21,14 @@ import { PageWrapper } from '@/components/layout/PageWrapper';
 import { RingChart } from '@/components/ui/RingChart';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
+import { Button } from '@/components/ui/Button';
 import { staggerContainer, staggerItem, fadeUp } from '@/lib/animations';
 import { getScoreColor } from '@/lib/utils';
 import Link from 'next/link';
 
-function CareerIcon({ iconName, className }: { iconName: string; className?: string }) {
-  const Icon = (LucideIcons as Record<string, React.ComponentType<{ className?: string }>>)[iconName];
-  return Icon ? <Icon className={className} aria-hidden /> : null;
+function CareerIcon({ iconName, className, style }: { iconName: string; className?: string; style?: React.CSSProperties }) {
+  const Icon = (LucideIcons as unknown as Record<string, React.ComponentType<{ className?: string; style?: React.CSSProperties }>>)[iconName];
+  return Icon ? <Icon className={className} style={style} aria-hidden /> : null;
 }
 
 export default function DashboardPage() {
@@ -55,57 +55,56 @@ export default function DashboardPage() {
   };
 
   return (
-    <PageWrapper className="flex flex-col pt-20 pb-16">
+    <PageWrapper className="flex flex-col pt-24 pb-16 min-h-[calc(100vh-4rem)]">
       <div className="section-container">
-
-        {/* Page header */}
+        {/* Page Header */}
         <motion.div
-          className="mb-10 text-center"
+          className="mb-12 text-center"
           variants={fadeUp}
           initial="initial"
           animate="animate"
         >
-          <Badge variant="success" icon={<CheckCircle2 className="h-3.5 w-3.5" />} className="mb-4">
+          <Badge variant="success" icon={<CheckCircle2 className="h-3.5 w-3.5" />} className="mb-4 font-semibold">
             Simulation Complete
           </Badge>
-          <h1 className="font-display text-3xl font-bold sm:text-4xl">
+          <h1 className="font-display text-3xl font-bold sm:text-4xl text-white tracking-tight leading-snug">
             Your Career Match Report
           </h1>
-          <p className="mt-2 text-slate-500">
-            Based on your decisions as a <span className="text-purple-300">{selectedCareer.title}</span>
+          <p className="mt-2 text-sm text-slate-500 font-semibold tracking-wider uppercase">
+            Performance Analysis as a <span className="text-purple-400">{selectedCareer.title}</span>
           </p>
         </motion.div>
 
-        {/* Top section: score + career */}
+        {/* Top summary section */}
         <div className="mb-8 grid gap-6 lg:grid-cols-3">
-
-          {/* Match score ring */}
+          {/* Match Score Gauge */}
           <motion.div
             variants={fadeUp}
             initial="initial"
             animate="animate"
             transition={{ delay: 0.1 }}
           >
-            <Card className="flex flex-col items-center justify-center p-8 text-center h-full">
-              <div className="relative mb-4">
-                <RingChart score={outcome.matchScore} size={140} strokeWidth={10} label="match score" />
+            <Card className="flex flex-col items-center justify-center p-8 text-center h-full border-white/[0.05]">
+              <div className="relative mb-6">
+                <RingChart score={outcome.matchScore} size={150} strokeWidth={12} label="match index" />
               </div>
-              <p
-                className={`text-sm font-medium ${getScoreColor(outcome.matchScore)}`}
+              <Badge
+                variant={outcome.matchScore >= 80 ? 'success' : outcome.matchScore >= 60 ? 'warning' : 'danger'}
+                className="font-semibold"
               >
                 {outcome.matchScore >= 80
                   ? 'Excellent Fit'
                   : outcome.matchScore >= 60
                   ? 'Good Potential'
                   : 'Explore Further'}
-              </p>
-              <h2 className="mt-3 text-lg font-semibold text-white">
+              </Badge>
+              <h2 className="mt-4 font-display font-extrabold text-white text-lg">
                 {selectedCareer.title}
               </h2>
             </Card>
           </motion.div>
 
-          {/* Headline + career fit */}
+          {/* AI Assessment & Personality Profile */}
           <motion.div
             className="lg:col-span-2"
             variants={fadeUp}
@@ -113,44 +112,45 @@ export default function DashboardPage() {
             animate="animate"
             transition={{ delay: 0.15 }}
           >
-            <Card className="h-full">
-              <div className="flex items-start gap-3 mb-4">
-                <div
-                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
-                  style={{
-                    backgroundColor: `${selectedCareer.color}18`,
-                    border: `1px solid ${selectedCareer.color}30`,
-                  }}
-                >
-                  <CareerIcon iconName={selectedCareer.iconName} className="h-5 w-5" />
+            <Card padding="lg" className="h-full border-white/[0.05] flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-3 mb-6">
+                  <div
+                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl transition-all duration-300"
+                    style={{
+                      backgroundColor: `${selectedCareer.color}15`,
+                      border: `1px solid ${selectedCareer.color}25`,
+                    }}
+                  >
+                    <CareerIcon iconName={selectedCareer.iconName} className="h-5 w-5" style={{ color: selectedCareer.color }} />
+                  </div>
+                  <div>
+                    <h3 className="font-display font-bold text-white text-base">AI Evaluation & Archetype</h3>
+                    <p className="text-xs text-slate-500 font-medium">Derived from simulated workspace actions</p>
+                  </div>
                 </div>
-                <div>
-                  <h2 className="font-semibold text-white">AI Assessment</h2>
-                  <p className="text-xs text-slate-500">Based on your simulation decisions</p>
-                </div>
+
+                <p className="mb-4 text-base font-semibold leading-relaxed text-purple-300">
+                  "{outcome.headline}"
+                </p>
+                <p className="text-sm leading-relaxed text-slate-400">
+                  {outcome.careerFit}
+                </p>
               </div>
 
-              <p className="mb-4 text-base font-medium text-purple-200">
-                {outcome.headline}
-              </p>
-              <p className="text-sm leading-relaxed text-slate-400">
-                {outcome.careerFit}
-              </p>
-
               {personalityProfile && (
-                <div className="mt-4 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
-                  <p className="mb-1 text-xs font-medium text-slate-500">Your Personality Profile</p>
-                  <p className="text-sm text-slate-300 leading-relaxed">{personalityProfile}</p>
+                <div className="mt-6 rounded-xl border border-white/[0.05] bg-white/[0.01] p-4.5">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 block mb-1">Your Personality Profile</span>
+                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-medium">{personalityProfile}</p>
                 </div>
               )}
             </Card>
           </motion.div>
         </div>
 
-        {/* Strengths + Growth Areas */}
+        {/* Strengths & Growth Areas Grid */}
         <div className="mb-8 grid gap-6 sm:grid-cols-2">
-
-          {/* Strengths */}
+          {/* Strengths Card */}
           <motion.div
             variants={fadeUp}
             initial="initial"
@@ -158,15 +158,15 @@ export default function DashboardPage() {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-            <Card className="h-full">
-              <div className="mb-4 flex items-center gap-2">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/15 border border-emerald-500/20">
-                  <Star className="h-4 w-4 text-emerald-400" aria-hidden />
+            <Card padding="lg" className="h-full border-white/[0.05] bg-emerald-500/[0.01]">
+              <div className="mb-6 flex items-center gap-3">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+                  <Star className="h-4 w-4" aria-hidden />
                 </div>
-                <h3 className="font-semibold text-white">Key Strengths</h3>
+                <h3 className="font-display font-bold text-white text-base">Core Strengths</h3>
               </div>
               <motion.ul
-                className="space-y-3"
+                className="space-y-4"
                 variants={staggerContainer}
                 initial="initial"
                 whileInView="animate"
@@ -176,12 +176,14 @@ export default function DashboardPage() {
                   <motion.li
                     key={i}
                     variants={staggerItem}
-                    className="flex items-start gap-3"
+                    className="flex items-start gap-3.5"
                   >
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-400" aria-hidden />
+                    <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-400">
+                      <CheckCircle2 className="h-3.5 w-3.5" />
+                    </div>
                     <div>
-                      <p className="text-sm font-medium text-white">{strength.skill}</p>
-                      <p className="text-xs text-slate-500">{strength.evidence}</p>
+                      <p className="text-sm font-bold text-slate-200">{strength.skill}</p>
+                      <p className="text-xs text-slate-500 leading-relaxed mt-0.5">{strength.evidence}</p>
                     </div>
                   </motion.li>
                 ))}
@@ -189,7 +191,7 @@ export default function DashboardPage() {
             </Card>
           </motion.div>
 
-          {/* Growth Areas */}
+          {/* Growth Areas Card */}
           <motion.div
             variants={fadeUp}
             initial="initial"
@@ -197,15 +199,15 @@ export default function DashboardPage() {
             viewport={{ once: true }}
             transition={{ delay: 0.15 }}
           >
-            <Card className="h-full">
-              <div className="mb-4 flex items-center gap-2">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-500/15 border border-amber-500/20">
-                  <Target className="h-4 w-4 text-amber-400" aria-hidden />
+            <Card padding="lg" className="h-full border-white/[0.05] bg-amber-500/[0.01]">
+              <div className="mb-6 flex items-center gap-3">
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400">
+                  <Target className="h-4 w-4" aria-hidden />
                 </div>
-                <h3 className="font-semibold text-white">Growth Areas</h3>
+                <h3 className="font-display font-bold text-white text-base">Growth Areas</h3>
               </div>
               <motion.ul
-                className="space-y-3"
+                className="space-y-4"
                 variants={staggerContainer}
                 initial="initial"
                 whileInView="animate"
@@ -215,12 +217,14 @@ export default function DashboardPage() {
                   <motion.li
                     key={i}
                     variants={staggerItem}
-                    className="flex items-start gap-3"
+                    className="flex items-start gap-3.5"
                   >
-                    <Lightbulb className="mt-0.5 h-4 w-4 shrink-0 text-amber-400" aria-hidden />
+                    <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-amber-500/10 text-amber-400">
+                      <Lightbulb className="h-3.5 w-3.5" />
+                    </div>
                     <div>
-                      <p className="text-sm font-medium text-white">{area.skill}</p>
-                      <p className="text-xs text-slate-500">{area.advice}</p>
+                      <p className="text-sm font-bold text-slate-200">{area.skill}</p>
+                      <p className="text-xs text-slate-500 leading-relaxed mt-0.5">{area.advice}</p>
                     </div>
                   </motion.li>
                 ))}
@@ -229,72 +233,82 @@ export default function DashboardPage() {
           </motion.div>
         </div>
 
-        {/* Related Careers */}
+        {/* Related Careers recommendation card panel */}
         {relatedCareers.length > 0 && (
           <motion.div
-            className="mb-8"
+            className="mb-10"
             variants={fadeUp}
             initial="initial"
             whileInView="animate"
             viewport={{ once: true }}
           >
-            <div className="mb-4 flex items-center gap-2">
+            <div className="mb-6 flex items-center gap-3">
               <TrendingUp className="h-4 w-4 text-purple-400" aria-hidden />
-              <h3 className="font-semibold text-white">Related Careers You Might Love</h3>
+              <h3 className="font-display font-bold text-white text-base">Explore Related Careers</h3>
             </div>
-            <div className="grid gap-3 sm:grid-cols-3">
+            <div className="grid gap-4 sm:grid-cols-3">
               {relatedCareers.map((career) => career && (
                 <Link
                   key={career.id}
                   href="/simulation"
-                  className="group flex items-center gap-3 rounded-xl border border-white/[0.07] bg-white/[0.02] p-4 transition-all duration-200 hover:border-white/15 hover:bg-white/[0.05]"
+                  className="group block"
                   onClick={() => {
-                    // TODO: set selected career to this one
+                    // Save career to store
+                    useSimulationStore.getState().setCareer(career);
+                    // Reset scenarios list for the new career simulation
+                    useSimulationStore.getState().reset();
+                    useSimulationStore.getState().setCareer(career);
                   }}
                 >
-                  <div
-                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg"
-                    style={{
-                      backgroundColor: `${career.color}18`,
-                      border: `1px solid ${career.color}30`,
-                    }}
-                  >
-                    <CareerIcon iconName={career.iconName} className="h-4 w-4" />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-sm font-medium text-white truncate">{career.title}</p>
-                    <p className="text-xs text-slate-500">{career.growthRate}</p>
-                  </div>
-                  <ArrowRight className="ml-auto h-4 w-4 text-slate-600 group-hover:text-slate-300 transition-colors shrink-0" aria-hidden />
+                  <Card padding="md" className="flex items-center gap-3.5 border-white/[0.05] hover:border-purple-500/30 group-hover:bg-white/[0.04]">
+                    <div
+                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-colors duration-300"
+                      style={{
+                        backgroundColor: `${career.color}12`,
+                        border: `1px solid ${career.color}25`,
+                      }}
+                    >
+                      <CareerIcon iconName={career.iconName} className="h-4.5 w-4.5" style={{ color: career.color }} />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-xs sm:text-sm font-bold text-slate-200 group-hover:text-purple-300 transition-colors truncate">{career.title}</p>
+                      <p className="text-[10px] text-emerald-400 font-semibold tracking-wider mt-0.5">{career.growthRate}</p>
+                    </div>
+                    <ArrowRight className="ml-auto h-4 w-4 text-slate-600 group-hover:text-white transition-colors shrink-0 group-hover:translate-x-1 duration-300" aria-hidden />
+                  </Card>
                 </Link>
               ))}
             </div>
           </motion.div>
         )}
 
-        {/* CTAs */}
+        {/* Action CTAs */}
         <motion.div
-          className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center"
+          className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center mt-12 border-t border-white/[0.04] pt-8"
           variants={fadeUp}
           initial="initial"
           whileInView="animate"
           viewport={{ once: true }}
         >
-          <Link href="/roadmap" className="btn-primary px-8 py-3.5">
-            <Map className="h-4 w-4" aria-hidden />
-            Get My Roadmap
-            <ArrowRight className="h-4 w-4" aria-hidden />
+          <Link href="/roadmap" passHref legacyBehavior>
+            <Button variant="primary" size="lg" icon={<Map className="h-4 w-4" />} iconPosition="left">
+              Get Personalized Roadmap
+            </Button>
           </Link>
-          <Link href="/galaxy" className="btn-secondary px-8 py-3.5">
-            Explore Career Galaxy
+          <Link href="/galaxy" passHref legacyBehavior>
+            <Button variant="secondary" size="lg">
+              Explore Career Galaxy
+            </Button>
           </Link>
-          <button
+          <Button
+            variant="ghost"
             onClick={handleRestart}
-            className="btn-ghost px-6 py-3 text-sm"
+            icon={<RotateCcw className="h-4 w-4" />}
+            iconPosition="left"
+            className="text-slate-500 hover:text-white"
           >
-            <RotateCcw className="h-4 w-4" aria-hidden />
             Start Over
-          </button>
+          </Button>
         </motion.div>
       </div>
     </PageWrapper>

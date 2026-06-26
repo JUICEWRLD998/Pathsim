@@ -90,7 +90,7 @@ export function Navbar() {
           <div className="hidden md:flex items-center gap-3">
             <Link
               href="/quiz"
-              className="flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-500 to-cyan-500 px-4 py-2 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-px hover:shadow-[0_6px_20px_rgba(168,85,247,0.4)]"
+              className="btn-premium-primary text-xs px-5 py-2"
             >
               <Sparkles className="h-3.5 w-3.5" aria-hidden />
               Start Quiz
@@ -138,7 +138,7 @@ export function Navbar() {
               <li className="mt-2 pt-2 border-t border-white/[0.06]">
                 <Link
                   href="/quiz"
-                  className="block text-center rounded-full bg-gradient-to-r from-purple-500 to-cyan-500 px-4 py-3 text-sm font-semibold text-white"
+                  className="btn-premium-primary text-center block w-full py-2.5"
                 >
                   Start Quiz
                 </Link>

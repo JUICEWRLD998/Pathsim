@@ -40,9 +40,9 @@
 ### Phase Status
 
 - [x] **Phase 1** — Foundation & Setup
-- [ ] **Phase 2** — Data & AI Layer
-- [ ] **Phase 3** — Core User Flow
-- [ ] **Phase 4** — Galaxy & Roadmap
+- [x] **Phase 2** — Data & AI Layer
+- [x] **Phase 3** — Core User Flow
+- [x] **Phase 4** — Galaxy & Roadmap
 - [ ] **Phase 5** — Polish & Deploy
 
 ---

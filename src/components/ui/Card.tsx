@@ -32,18 +32,10 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
     ref
   ) => {
     const base = cn(
-      'relative rounded-2xl',
-      'bg-white/[0.04] backdrop-blur-xl',
-      'border border-white/[0.08]',
+      'glass-card-premium',
       paddingClasses[padding],
-      hover && [
-        'cursor-pointer',
-        'hover:bg-white/[0.07]',
-        'hover:border-purple-500/30',
-        'hover:shadow-[0_0_30px_rgba(168,85,247,0.12)]',
-        'transition-all duration-300',
-      ],
-      glow && 'shadow-[0_0_60px_rgba(168,85,247,0.06)]',
+      hover && 'glass-card-premium-hover',
+      glow && 'shadow-[0_0_50px_rgba(168,85,247,0.08)] border-purple-500/15',
       className
     );
 
@@ -52,7 +44,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
         <motion.div
           ref={ref}
           whileHover={{ y: -2 }}
-          transition={{ duration: 0.2 }}
+          transition={{ type: 'spring', stiffness: 400, damping: 25 }}
           className={base}
           {...(props as React.ComponentProps<typeof motion.div>)}
         >

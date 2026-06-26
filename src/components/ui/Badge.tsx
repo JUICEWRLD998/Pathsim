@@ -11,17 +11,17 @@ interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 const variantClasses: Record<BadgeVariant, string> = {
-  default: 'bg-white/10 text-slate-300 border-white/10',
-  primary: 'bg-purple-500/15 text-purple-300 border-purple-500/30',
-  success: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30',
-  warning: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
-  danger: 'bg-rose-500/15 text-rose-300 border-rose-500/30',
-  muted: 'bg-white/5 text-slate-500 border-white/5',
+  default: 'bg-white/[0.04] text-slate-300 border-white/[0.08]',
+  primary: 'bg-purple-500/10 text-purple-300 border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.06)]',
+  success: 'bg-emerald-500/10 text-emerald-300 border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.06)]',
+  warning: 'bg-amber-500/10 text-amber-300 border-amber-500/20 shadow-[0_0_15px_rgba(245,158,11,0.06)]',
+  danger: 'bg-rose-500/10 text-rose-300 border-rose-500/20 shadow-[0_0_15px_rgba(239,68,68,0.06)]',
+  muted: 'bg-white/[0.02] text-slate-500 border-white/[0.04]',
 };
 
 const sizeClasses = {
-  sm: 'text-xs px-2 py-0.5 gap-1',
-  md: 'text-xs px-3 py-1 gap-1.5',
+  sm: 'text-[10px] px-2 py-0.5 gap-1 font-semibold uppercase tracking-wider',
+  md: 'text-xs px-3 py-1 gap-1.5 font-medium',
 };
 
 export function Badge({
@@ -31,18 +31,18 @@ export function Badge({
   className,
   children,
   ...props
-}: BadgeProps) {
+}: BadgeProps): React.ReactNode {
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded-full border font-medium',
+        'inline-flex items-center rounded-full border select-none transition-all duration-250',
         variantClasses[variant],
         sizeClasses[size],
         className
       )}
       {...props}
     >
-      {icon && <span className="shrink-0">{icon}</span>}
+      {icon && <span className="shrink-0 flex items-center justify-center">{icon}</span>}
       {children}
     </span>
   );

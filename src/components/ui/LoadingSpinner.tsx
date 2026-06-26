@@ -9,9 +9,9 @@ interface LoadingSpinnerProps {
 }
 
 const sizeMap = {
-  sm: { outer: 24, inner: 16, border: 2 },
-  md: { outer: 44, inner: 30, border: 2.5 },
-  lg: { outer: 64, inner: 44, border: 3 },
+  sm: { outer: 28, inner: 18, border: 2 },
+  md: { outer: 48, inner: 32, border: 2.5 },
+  lg: { outer: 68, inner: 46, border: 3 },
 };
 
 export function LoadingSpinner({ size = 'md', label, className }: LoadingSpinnerProps) {
@@ -19,49 +19,45 @@ export function LoadingSpinner({ size = 'md', label, className }: LoadingSpinner
 
   return (
     <div
-      className={cn('flex flex-col items-center gap-3', className)}
+      className={cn('flex flex-col items-center justify-center gap-4 text-center select-none', className)}
       role="status"
       aria-label={label ?? 'Loading'}
     >
-      <div className="relative" style={{ width: outer, height: outer }}>
-        {/* Outer ring */}
+      <div className="relative flex items-center justify-center" style={{ width: outer, height: outer }}>
+        {/* Outer Orbit (Violet) */}
         <div
           className="absolute inset-0 rounded-full border-transparent animate-spin"
           style={{
             border: `${border}px solid transparent`,
             borderTopColor: '#a855f7',
-            borderRightColor: 'rgba(168,85,247,0.3)',
-            animationDuration: '1s',
+            borderRightColor: 'rgba(168, 85, 247, 0.2)',
+            animationDuration: '1.2s',
           }}
         />
-        {/* Inner ring */}
+        {/* Inner Orbit (Cyan - Reverse) */}
         <div
           className="absolute rounded-full border-transparent animate-spin"
           style={{
-            top: (outer - inner) / 2,
-            left: (outer - inner) / 2,
             width: inner,
             height: inner,
             border: `${border}px solid transparent`,
-            borderTopColor: '#22d3ee',
-            borderLeftColor: 'rgba(34,211,238,0.3)',
-            animationDuration: '0.7s',
+            borderTopColor: '#06b6d4',
+            borderLeftColor: 'rgba(6, 182, 212, 0.2)',
+            animationDuration: '0.8s',
             animationDirection: 'reverse',
           }}
         />
-        {/* Center dot */}
+        {/* Glowing Center Core */}
         <div
-          className="absolute rounded-full bg-purple-500/40"
+          className="absolute rounded-full bg-accent/40 shadow-[0_0_15px_rgba(6,182,212,0.6)] animate-pulse"
           style={{
-            top: outer / 2 - 3,
-            left: outer / 2 - 3,
-            width: 6,
-            height: 6,
+            width: border * 2,
+            height: border * 2,
           }}
         />
       </div>
       {label && (
-        <p className="text-sm text-slate-400 animate-pulse">{label}</p>
+        <p className="font-display text-sm font-semibold tracking-wide text-slate-400 animate-pulse">{label}</p>
       )}
     </div>
   );

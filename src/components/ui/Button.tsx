@@ -16,43 +16,15 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const sizeClasses: Record<ButtonSize, string> = {
-  sm: 'h-9 px-4 text-sm gap-1.5',
+  sm: 'h-9 px-4 text-xs gap-1.5',
   md: 'h-11 px-6 text-sm gap-2',
   lg: 'h-13 px-8 text-base gap-2.5',
 };
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: [
-    'relative overflow-hidden',
-    'bg-gradient-to-r from-purple-500 to-cyan-500',
-    'text-white font-semibold',
-    'shadow-[0_0_0_1px_rgba(168,85,247,0.3)]',
-    'hover:shadow-[0_8px_30px_rgba(168,85,247,0.4)]',
-    'hover:-translate-y-px',
-    'active:translate-y-0 active:shadow-none',
-    'disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0',
-    'transition-all duration-200',
-  ].join(' '),
-
-  secondary: [
-    'bg-white/5 backdrop-blur-sm',
-    'border border-purple-500/30',
-    'text-purple-200 font-medium',
-    'hover:bg-purple-500/10 hover:border-purple-500/50',
-    'hover:-translate-y-px',
-    'active:translate-y-0',
-    'disabled:opacity-50 disabled:cursor-not-allowed',
-    'transition-all duration-200',
-  ].join(' '),
-
-  ghost: [
-    'bg-transparent',
-    'text-slate-400',
-    'hover:text-slate-200 hover:bg-white/5',
-    'active:bg-white/10',
-    'disabled:opacity-50 disabled:cursor-not-allowed',
-    'transition-all duration-200',
-  ].join(' '),
+  primary: 'btn-premium-primary',
+  secondary: 'btn-premium-secondary',
+  ghost: 'btn-premium-ghost',
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -73,10 +45,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <motion.button
         ref={ref}
-        whileTap={{ scale: 0.97 }}
+        whileHover={disabled || loading ? undefined : { y: -1.5 }}
+        whileTap={disabled || loading ? undefined : { scale: 0.97 }}
+        transition={{ type: 'spring', stiffness: 400, damping: 20 }}
         className={cn(
-          'inline-flex items-center justify-center rounded-full font-medium',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#040812]',
+          'inline-flex items-center justify-center font-semibold rounded-full select-none cursor-pointer',
+          'disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:transform-none disabled:active:scale-100',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-void focus-visible:ring-accent',
           sizeClasses[size],
           variantClasses[variant],
           className
@@ -92,11 +67,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ) : (
           <>
             {icon && iconPosition === 'left' && (
-              <span className="shrink-0">{icon}</span>
+              <span className="shrink-0 transition-transform duration-200">{icon}</span>
             )}
             {children}
             {icon && iconPosition === 'right' && (
-              <span className="shrink-0">{icon}</span>
+              <span className="shrink-0 transition-transform duration-200">{icon}</span>
             )}
           </>
         )}

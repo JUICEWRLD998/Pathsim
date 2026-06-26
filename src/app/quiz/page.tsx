@@ -3,17 +3,15 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Sparkles, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Sparkles, CheckCircle } from 'lucide-react';
 import { QUIZ_QUESTIONS } from '@/lib/quiz-questions';
 import { useQuizStore } from '@/store/quizStore';
 import { callGemini } from '@/lib/api';
 import type { RecommendationsResponse } from '@/types/api';
-import type { QuizAnswer } from '@/types/quiz';
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { QuizCard } from '@/components/quiz/QuizCard';
 import { Button } from '@/components/ui/Button';
 import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
-import { slideInRight } from '@/lib/animations';
 
 export default function QuizPage() {
   const router = useRouter();
@@ -33,7 +31,7 @@ export default function QuizPage() {
   const [direction, setDirection] = useState<1 | -1>(1);
   const totalQuestions = QUIZ_QUESTIONS.length;
   const question = QUIZ_QUESTIONS[currentQuestion];
-  const progress = ((currentQuestion) / totalQuestions) * 100;
+  const progress = (currentQuestion / totalQuestions) * 100;
 
   const currentAnswer = answers.find((a) => a.questionId === question?.id);
   const hasAnswer = currentAnswer?.answer &&
@@ -98,15 +96,16 @@ export default function QuizPage() {
 
   if (isLoading) {
     return (
-      <div className="flex flex-1 items-center justify-center px-4">
+      <div className="flex flex-1 items-center justify-center px-4 min-h-[70vh]">
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4 }}
           className="text-center"
         >
-          <LoadingSpinner size="lg" label="Analyzing your profile with AI..." />
-          <p className="mt-6 text-sm text-slate-500">
-            Finding your top 3 career matches...
+          <LoadingSpinner size="lg" label="Analyzing profile with AI..." />
+          <p className="mt-4 text-xs text-slate-500 max-w-sm mx-auto leading-relaxed">
+            We are processing your answers through Gemini to discover your top 3 recommended career simulations.
           </p>
         </motion.div>
       </div>
@@ -114,30 +113,34 @@ export default function QuizPage() {
   }
 
   return (
-    <PageWrapper className="flex flex-1 flex-col items-center justify-center px-4 py-20">
-      <div className="w-full max-w-2xl">
+    <PageWrapper className="flex flex-1 flex-col items-center justify-center px-4 py-24 relative min-h-[calc(100vh-4rem)]">
+      {/* Background glow overlay */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="ambient-glow glow-purple h-[400px] w-[400px] top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.1]" />
+      </div>
 
+      <div className="w-full max-w-2xl relative z-10">
         {/* Header */}
-        <div className="mb-8 text-center">
-          <div className="mb-2 flex items-center justify-center gap-2 text-sm font-medium text-purple-400">
+        <div className="mb-10 text-center">
+          <div className="mb-3 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-purple-400">
             <Sparkles className="h-4 w-4" aria-hidden />
             Spark Quiz
           </div>
-          <h1 className="font-display text-2xl font-bold text-white sm:text-3xl">
+          <h1 className="font-display text-2xl font-bold text-white sm:text-3xl tracking-tight">
             Discover Your Career Match
           </h1>
-          <p className="mt-2 text-sm text-slate-500">
+          <p className="mt-2 text-xs text-slate-500 font-semibold tracking-wider uppercase">
             Question {Math.min(currentQuestion + 1, totalQuestions)} of {totalQuestions}
           </p>
         </div>
 
-        {/* Progress bar */}
-        <div className="mb-8">
-          <div className="mb-1.5 flex items-center justify-between text-xs text-slate-600">
+        {/* Progress bar container */}
+        <div className="mb-10 bg-white/[0.02] border border-white/[0.05] rounded-2xl p-4">
+          <div className="mb-2 flex items-center justify-between text-xs font-semibold text-slate-500">
             <span>{Math.round(progress)}% complete</span>
-            <span>{totalQuestions - currentQuestion - 1} left</span>
+            <span>{totalQuestions - currentQuestion - 1} remaining</span>
           </div>
-          <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/[0.06]">
+          <div className="h-2 w-full overflow-hidden rounded-full bg-white/[0.04] border border-white/[0.06]">
             <motion.div
               className="h-full rounded-full bg-gradient-to-r from-purple-500 to-cyan-500"
               initial={{ width: 0 }}
@@ -146,8 +149,8 @@ export default function QuizPage() {
             />
           </div>
 
-          {/* Step dots */}
-          <div className="mt-3 flex items-center justify-center gap-2">
+          {/* Question dot markers */}
+          <div className="mt-4 flex items-center justify-center gap-2">
             {QUIZ_QUESTIONS.map((q, i) => {
               const answered = answers.some(
                 (a) => a.questionId === q.id && (Array.isArray(a.answer) ? a.answer.length > 0 : a.answer !== '')
@@ -159,7 +162,7 @@ export default function QuizPage() {
                     i === currentQuestion
                       ? 'w-6 bg-purple-400'
                       : answered
-                      ? 'w-1.5 bg-purple-500/60'
+                      ? 'w-2 bg-purple-500/50'
                       : 'w-1.5 bg-white/10'
                   }`}
                 />
@@ -168,7 +171,7 @@ export default function QuizPage() {
           </div>
         </div>
 
-        {/* Question card */}
+        {/* Question Card Display */}
         <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={currentQuestion}
@@ -176,18 +179,18 @@ export default function QuizPage() {
             variants={{
               enter: (dir: number) => ({
                 opacity: 0,
-                x: dir > 0 ? 40 : -40,
+                x: dir > 0 ? 30 : -30,
               }),
               center: { opacity: 1, x: 0 },
               exit: (dir: number) => ({
                 opacity: 0,
-                x: dir > 0 ? -40 : 40,
+                x: dir > 0 ? -30 : 30,
               }),
             }}
             initial="enter"
             animate="center"
             exit="exit"
-            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
           >
             <QuizCard
               question={question}
@@ -197,19 +200,19 @@ export default function QuizPage() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Error */}
+        {/* Error Alert */}
         {error && (
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mt-4 rounded-xl border border-rose-500/30 bg-rose-500/10 p-4 text-sm text-rose-300"
+            className="mt-5 rounded-xl border border-rose-500/20 bg-rose-500/5 p-4 text-xs font-semibold text-rose-400"
           >
             {error}
           </motion.div>
         )}
 
-        {/* Navigation */}
-        <div className="mt-6 flex items-center justify-between">
+        {/* Footer Navigation */}
+        <div className="mt-8 flex items-center justify-between">
           <Button
             variant="ghost"
             onClick={handlePrev}
@@ -224,7 +227,7 @@ export default function QuizPage() {
             <motion.div
               animate={
                 allAnswered
-                  ? { scale: [1, 1.03, 1], transition: { repeat: Infinity, duration: 2 } }
+                  ? { scale: [1, 1.02, 1], transition: { repeat: Infinity, duration: 2 } }
                   : {}
               }
             >
@@ -232,9 +235,9 @@ export default function QuizPage() {
                 onClick={handleSubmit}
                 disabled={!allAnswered}
                 loading={isLoading}
-                icon={<CheckCircle2 className="h-4 w-4" />}
+                icon={<CheckCircle className="h-4 w-4" />}
                 iconPosition="right"
-                className={allAnswered ? 'shadow-[0_0_30px_rgba(168,85,247,0.4)]' : ''}
+                className={allAnswered ? 'shadow-[0_0_25px_rgba(168,85,247,0.35)]' : ''}
               >
                 Find My Careers
               </Button>
@@ -246,7 +249,7 @@ export default function QuizPage() {
               icon={<ArrowRight className="h-4 w-4" />}
               iconPosition="right"
             >
-              Next
+              Next Question
             </Button>
           )}
         </div>
