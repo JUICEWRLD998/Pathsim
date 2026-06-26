@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Sparkles, CheckCircle } from 'lucide-react';
 import { QUIZ_QUESTIONS } from '@/lib/quiz-questions';
 import { useQuizStore } from '@/store/quizStore';
+import { useUserStore } from '@/store/userStore';
 import { callGemini } from '@/lib/api';
 import type { RecommendationsResponse } from '@/types/api';
 import { PageWrapper } from '@/components/layout/PageWrapper';
@@ -78,7 +79,28 @@ export default function QuizPage() {
       const data = await callGemini<RecommendationsResponse>('career_recommendation', {
         answers: formatted,
       });
+      
       setRecommendations(data.recommendations, data.personalityProfile);
+      
+      // Save profile to server database if authenticated
+      if (useUserStore.getState().isAuthenticated) {
+        try {
+          await fetch('/api/profile', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              quizCompleted: true,
+              recommendations: data.recommendations,
+              personalityProfile: data.personalityProfile,
+              answers: answers,
+            }),
+          });
+          await useUserStore.getState().fetchUser();
+        } catch (saveErr) {
+          console.error('Error saving quiz profile to DB:', saveErr);
+        }
+      }
+
       router.push('/simulation');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');

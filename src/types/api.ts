@@ -1,5 +1,5 @@
 export interface GeminiRequest {
-  promptKey: 'career_recommendation' | 'scenario_generation' | 'outcome_evaluation' | 'roadmap_generation';
+  promptKey: 'career_recommendation' | 'scenario_generation' | 'outcome_evaluation' | 'roadmap_generation' | 'custom_career_generation';
   variables: Record<string, string>;
 }
 

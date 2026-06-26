@@ -21,7 +21,7 @@ export const CAREERS: Career[] = [
     education: 'CS degree or bootcamp',
     growthRate: '+25% by 2030',
     dayInLife: 'Design, code, review, and ship features in a collaborative team.',
-    relatedTo: ['ux-designer', 'data-scientist', 'product-manager', 'cybersecurity-analyst'],
+    relatedTo: ['ux-designer', 'data-scientist', 'product-manager', 'cybersecurity-analyst', 'ai-researcher'],
     iconName: 'Code2',
   },
   {
@@ -35,7 +35,7 @@ export const CAREERS: Career[] = [
     education: 'Design degree or portfolio',
     growthRate: '+16% by 2030',
     dayInLife: 'Research user needs, sketch flows, prototype interfaces, and test solutions.',
-    relatedTo: ['software-engineer', 'product-manager', 'graphic-designer'],
+    relatedTo: ['software-engineer', 'product-manager', 'graphic-designer', 'game-designer'],
     iconName: 'Layers',
   },
   {
@@ -49,7 +49,7 @@ export const CAREERS: Career[] = [
     education: 'Statistics or CS degree',
     growthRate: '+36% by 2030',
     dayInLife: 'Clean datasets, build predictive models, and present findings to leadership.',
-    relatedTo: ['software-engineer', 'financial-analyst', 'biomedical-engineer'],
+    relatedTo: ['software-engineer', 'financial-analyst', 'biomedical-engineer', 'ai-researcher'],
     iconName: 'BarChart3',
   },
   {
@@ -63,7 +63,7 @@ export const CAREERS: Career[] = [
     education: 'Business or any technical degree',
     growthRate: '+10% by 2030',
     dayInLife: 'Define product vision, coordinate engineers and designers, remove blockers.',
-    relatedTo: ['software-engineer', 'ux-designer', 'data-scientist'],
+    relatedTo: ['software-engineer', 'ux-designer', 'data-scientist', 'marketing-manager'],
     iconName: 'Target',
   },
   {
@@ -77,7 +77,7 @@ export const CAREERS: Career[] = [
     education: 'Biomedical Engineering degree',
     growthRate: '+10% by 2030',
     dayInLife: 'Design medical devices, run clinical tests, and collaborate with surgeons.',
-    relatedTo: ['doctor', 'data-scientist', 'environmental-scientist'],
+    relatedTo: ['doctor', 'data-scientist', 'environmental-scientist', 'nurse-practitioner'],
     iconName: 'Activity',
   },
   {
@@ -91,7 +91,7 @@ export const CAREERS: Career[] = [
     education: 'Design degree or strong portfolio',
     growthRate: '+3% by 2030',
     dayInLife: 'Design brand materials, collaborate with marketing, and iterate on feedback.',
-    relatedTo: ['ux-designer', 'architect', 'product-manager'],
+    relatedTo: ['ux-designer', 'architect', 'product-manager', 'game-designer'],
     iconName: 'PenTool',
   },
   {
@@ -105,7 +105,7 @@ export const CAREERS: Career[] = [
     education: 'Finance or Economics degree',
     growthRate: '+9% by 2030',
     dayInLife: 'Build financial models, analyze market trends, and present investment cases.',
-    relatedTo: ['product-manager', 'data-scientist'],
+    relatedTo: ['product-manager', 'data-scientist', 'lawyer'],
     iconName: 'DollarSign',
   },
   {
@@ -119,7 +119,7 @@ export const CAREERS: Career[] = [
     education: 'Medical degree (MD/DO)',
     growthRate: '+3% by 2030',
     dayInLife: 'Examine patients, diagnose conditions, prescribe treatment, and coordinate care.',
-    relatedTo: ['biomedical-engineer', 'teacher'],
+    relatedTo: ['biomedical-engineer', 'teacher', 'nurse-practitioner', 'psychologist'],
     iconName: 'Stethoscope',
   },
   {
@@ -133,7 +133,7 @@ export const CAREERS: Career[] = [
     education: 'Education degree + certification',
     growthRate: '+5% by 2030',
     dayInLife: 'Plan lessons, engage students, provide feedback, and foster curiosity.',
-    relatedTo: ['doctor', 'environmental-scientist'],
+    relatedTo: ['doctor', 'environmental-scientist', 'psychologist'],
     iconName: 'BookOpen',
   },
   {
@@ -147,7 +147,7 @@ export const CAREERS: Career[] = [
     education: 'Environmental Science degree',
     growthRate: '+8% by 2030',
     dayInLife: 'Collect samples, analyze environmental data, write policy reports.',
-    relatedTo: ['biomedical-engineer', 'teacher', 'data-scientist'],
+    relatedTo: ['biomedical-engineer', 'teacher', 'data-scientist', 'renewable-energy', 'marine-biologist'],
     iconName: 'Leaf',
   },
   {
@@ -161,7 +161,7 @@ export const CAREERS: Career[] = [
     education: 'CS or Cybersecurity degree + certs',
     growthRate: '+35% by 2030',
     dayInLife: 'Monitor threats, run penetration tests, incident response, and harden systems.',
-    relatedTo: ['software-engineer', 'data-scientist'],
+    relatedTo: ['software-engineer', 'data-scientist', 'devops-engineer'],
     iconName: 'ShieldCheck',
   },
   {
@@ -175,17 +175,214 @@ export const CAREERS: Career[] = [
     education: 'Architecture degree (5+ years)',
     growthRate: '+5% by 2030',
     dayInLife: 'Draft blueprints, collaborate with clients, manage construction phases.',
-    relatedTo: ['graphic-designer', 'environmental-scientist'],
+    relatedTo: ['graphic-designer', 'environmental-scientist', 'renewable-energy'],
     iconName: 'Building2',
+  },
+  {
+    id: 'nurse-practitioner',
+    title: 'Nurse Practitioner',
+    cluster: 'health',
+    color: '#f87171',
+    description: 'Provide advanced primary and specialty healthcare directly to patients.',
+    salary: { entry: 90000, mid: 120000, senior: 150000 },
+    skills: ['Clinical Assessment', 'Patient Care', 'Diagnostics', 'Empathy'],
+    education: 'Master of Science in Nursing (MSN)',
+    growthRate: '+40% by 2030',
+    dayInLife: 'Perform examinations, diagnose illnesses, prescribe medications, counsel families.',
+    relatedTo: ['doctor', 'biomedical-engineer', 'psychologist'],
+    iconName: 'HeartHandshake',
+  },
+  {
+    id: 'lawyer',
+    title: 'Attorney',
+    cluster: 'business',
+    color: '#fb923c',
+    description: 'Advocate for clients and represent entities in legal transactions or disputes.',
+    salary: { entry: 70000, mid: 125000, senior: '200K+' },
+    skills: ['Legal Writing', 'Analytical Thinking', 'Negotiation', 'Public Speaking'],
+    education: 'Juris Doctor (JD) + Bar admission',
+    growthRate: '+9% by 2030',
+    dayInLife: 'Draft contracts, conduct legal research, advise clients, and argue in court.',
+    relatedTo: ['financial-analyst', 'product-manager', 'environmental-scientist'],
+    iconName: 'Scale',
+  },
+  {
+    id: 'psychologist',
+    title: 'Clinical Psychologist',
+    cluster: 'health',
+    color: '#f87171',
+    description: 'Study cognitive, emotional, and social processes to improve mental wellness.',
+    salary: { entry: 55000, mid: 85000, senior: 130000 },
+    skills: ['Active Listening', 'Empathy', 'Behavioral Therapy', 'Research'],
+    education: 'Ph.D. or Psy.D. in Psychology',
+    growthRate: '+6% by 2030',
+    dayInLife: 'Conduct therapy sessions, diagnose psychological conditions, write research notes.',
+    relatedTo: ['doctor', 'nurse-practitioner', 'teacher'],
+    iconName: 'Smile',
+  },
+  {
+    id: 'ai-researcher',
+    title: 'AI Research Scientist',
+    cluster: 'tech',
+    color: '#818cf8',
+    description: 'Advance the state-of-the-art in machine learning and artificial intelligence.',
+    salary: { entry: 95000, mid: 150000, senior: '250K+' },
+    skills: ['Deep Learning', 'PyTorch/TensorFlow', 'Mathematics', 'Scientific Writing'],
+    education: 'Ph.D. in CS or Mathematics',
+    growthRate: '+45% by 2030',
+    dayInLife: 'Formulate new architectures, train large neural networks, write research papers.',
+    relatedTo: ['software-engineer', 'data-scientist', 'devops-engineer'],
+    iconName: 'BrainCircuit',
+  },
+  {
+    id: 'aerospace-engineer',
+    title: 'Aerospace Engineer',
+    cluster: 'science',
+    color: '#34d399',
+    description: 'Design, construct, and test aircraft, spacecraft, satellites, and missiles.',
+    salary: { entry: 72000, mid: 115000, senior: 165000 },
+    skills: ['Aerodynamics', 'Physics', 'CAD Modeling', 'Testing'],
+    education: 'Aerospace Engineering degree',
+    growthRate: '+8% by 2030',
+    dayInLife: 'Calculate structural loads, run simulations, inspect prototypes, analyze data.',
+    relatedTo: ['biomedical-engineer', 'environmental-scientist', 'software-engineer'],
+    iconName: 'PlaneTakeoff',
+  },
+  {
+    id: 'film-director',
+    title: 'Film Director',
+    cluster: 'creative',
+    color: '#f472b6',
+    description: 'Translate written scripts into visual cinematic masterworks.',
+    salary: { entry: 40000, mid: 75000, senior: '150K+' },
+    skills: ['Storytelling', 'Leadership', 'Cinematography', 'Creative Direction'],
+    education: 'Film school or portfolio',
+    growthRate: '+12% by 2030',
+    dayInLife: 'Block scenes, guide actor performances, collaborate with editors and designers.',
+    relatedTo: ['graphic-designer', 'ux-designer', 'game-designer'],
+    iconName: 'Clapperboard',
+  },
+  {
+    id: 'marketing-manager',
+    title: 'Marketing Director',
+    cluster: 'business',
+    color: '#fb923c',
+    description: 'Plan campaigns to build brand equity and acquire customer pipelines.',
+    salary: { entry: 50000, mid: 88000, senior: 145000 },
+    skills: ['Strategy', 'Copywriting', 'SEO/Analytics', 'Project Management'],
+    education: 'Marketing or Business degree',
+    growthRate: '+10% by 2030',
+    dayInLife: 'Review ad metrics, coordinate visual content, draft campaign copy, plan budgets.',
+    relatedTo: ['product-manager', 'financial-analyst', 'graphic-designer'],
+    iconName: 'Megaphone',
+  },
+  {
+    id: 'marine-biologist',
+    title: 'Marine Biologist',
+    cluster: 'science',
+    color: '#34d399',
+    description: 'Study marine organisms, behaviors, and ocean ecosystem dynamics.',
+    salary: { entry: 42000, mid: 68000, senior: 98000 },
+    skills: ['Scuba Diving', 'Field Sampling', 'Microscopy', 'Conservation'],
+    education: 'Marine Biology or Biology degree',
+    growthRate: '+5% by 2030',
+    dayInLife: 'Collect water samples, monitor coral health, run lab cultures, write research.',
+    relatedTo: ['environmental-scientist', 'teacher'],
+    iconName: 'Fish',
+  },
+  {
+    id: 'devops-engineer',
+    title: 'DevOps Engineer',
+    cluster: 'tech',
+    color: '#818cf8',
+    description: 'Orchestrate cloud infrastructure deployment and automate build pipelines.',
+    salary: { entry: 78000, mid: 118000, senior: 170000 },
+    skills: ['Docker/Kubernetes', 'CI/CD Pipelines', 'AWS/GCP', 'Linux scripting'],
+    education: 'CS degree or cloud certifications',
+    growthRate: '+21% by 2030',
+    dayInLife: 'Monitor cloud cluster logs, write deployment scripts, optimize build speeds.',
+    relatedTo: ['software-engineer', 'cybersecurity-analyst', 'ai-researcher'],
+    iconName: 'Terminal',
+  },
+  {
+    id: 'game-designer',
+    title: 'Game Designer',
+    cluster: 'creative',
+    color: '#f472b6',
+    description: 'Create interactive rules, level layouts, and game dynamics for digital systems.',
+    salary: { entry: 50000, mid: 82000, senior: 125000 },
+    skills: ['Systems Design', 'Scripting', 'Creative Writing', 'Level Editors'],
+    education: 'Game Design degree or portfolio',
+    growthRate: '+14% by 2030',
+    dayInLife: 'Draft design docs, script level logic, playtest builds, adjust balance values.',
+    relatedTo: ['ux-designer', 'graphic-designer', 'film-director', 'software-engineer'],
+    iconName: 'Gamepad2',
+  },
+  {
+    id: 'renewable-energy',
+    title: 'Renewable Energy Analyst',
+    cluster: 'science',
+    color: '#34d399',
+    description: 'Design solar, wind, and geothermal systems to power green cities.',
+    salary: { entry: 58000, mid: 88000, senior: 130000 },
+    skills: ['Thermodynamics', 'Grid modeling', 'AutoCAD', 'Sustainability'],
+    education: 'Mechanical or Electrical Engineering degree',
+    growthRate: '+30% by 2030',
+    dayInLife: 'Calculate solar output projections, inspect solar arrays, consult on power grid grids.',
+    relatedTo: ['environmental-scientist', 'architect', 'aerospace-engineer'],
+    iconName: 'Sun',
+  },
+  {
+    id: 'chef',
+    title: 'Chef de Cuisine',
+    cluster: 'creative',
+    color: '#f472b6',
+    description: 'Manage kitchen operations and invent menu profiles of culinary artistry.',
+    salary: { entry: 38000, mid: 60000, senior: 95000 },
+    skills: ['Culinary Arts', 'Kitchen Management', 'Menu Design', 'Sensory taste'],
+    education: 'Culinary degree or apprenticeship',
+    growthRate: '+15% by 2030',
+    dayInLife: 'Test new ingredients, oversee line cooks, manage inventories, prep signature sauces.',
+    relatedTo: ['graphic-designer', 'marketing-manager'],
+    iconName: 'ChefHat',
   },
 ];
 
 export function getCareerById(id: string): Career | undefined {
-  return CAREERS.find((c) => c.id === id);
+  // Check static careers
+  const staticCareer = CAREERS.find((c) => c.id === id);
+  if (staticCareer) return staticCareer;
+  
+  // Safe execution context check (in Node.js runtime we can load from JSON DB)
+  try {
+    const { db } = require('./db');
+    const custom = db.getCustomCareers();
+    return custom.find((c: any) => c.id === id);
+  } catch {
+    return undefined;
+  }
 }
 
 export function getCareersByCluster(cluster: string): Career[] {
-  return CAREERS.filter((c) => c.cluster === cluster);
+  const staticCareers = CAREERS.filter((c) => c.cluster === cluster);
+  try {
+    const { db } = require('./db');
+    const custom = db.getCustomCareers().filter((c: any) => c.cluster === cluster);
+    return [...staticCareers, ...custom];
+  } catch {
+    return staticCareers;
+  }
+}
+
+export function getAllCareers(): Career[] {
+  const staticCareers = [...CAREERS];
+  try {
+    const { db } = require('./db');
+    const custom = db.getCustomCareers();
+    return [...staticCareers, ...custom];
+  } catch {
+    return staticCareers;
+  }
 }
 
 export function formatSalary(amount: number | string): string {

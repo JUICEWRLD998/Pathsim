@@ -7,6 +7,7 @@ import * as LucideIcons from 'lucide-react';
 import { BrainCircuit, Clock, ChevronRight, Check } from 'lucide-react';
 import { useSimulationStore } from '@/store/simulationStore';
 import { useQuizStore } from '@/store/quizStore';
+import { useUserStore } from '@/store/userStore';
 import { callGemini } from '@/lib/api';
 import type { Scenario } from '@/types/simulation';
 import type { SimulationOutcome } from '@/types/simulation';
@@ -67,6 +68,8 @@ function CareerIcon({ iconName, className, style }: { iconName: string; classNam
 export default function SimulationPage() {
   const router = useRouter();
   const {
+    simulationId,
+    setSimulationId,
     selectedCareer,
     scenarios,
     decisions,
@@ -124,34 +127,114 @@ export default function SimulationPage() {
     const chosen = scenario.options.find((o) => o.id === optionId);
     if (!chosen) return;
 
-    makeDecision({
+    const currentRunId = simulationId || crypto.randomUUID();
+    if (!simulationId) {
+      setSimulationId(currentRunId);
+    }
+
+    const updatedDecision = {
       scenarioIndex: currentScenario,
       choiceId: chosen.id,
       choiceText: chosen.text,
       approach: chosen.approach,
-    });
+    };
 
-    // If done with all scenarios, evaluate outcomes
-    if (currentScenario + 1 >= TOTAL_SCENARIOS) {
+    makeDecision(updatedDecision);
+
+    const updatedDecisions = [...decisions, updatedDecision];
+
+    // Construct run history for the DB
+    const historyItem = {
+      scenarioTitle: scenario.setting || `Scenario ${currentScenario + 1}`,
+      choiceIndex: chosen.id.charCodeAt(0) - 65, // A -> 0, B -> 1
+      choiceText: chosen.text,
+      feedback: 'Logged.',
+      skillsGained: [
+        chosen.approach === 'analytical'
+          ? 'Data Analysis'
+          : chosen.approach === 'creative'
+          ? 'Innovation'
+          : chosen.approach === 'collaborative'
+          ? 'Teamwork'
+          : 'System Thinking',
+      ],
+    };
+
+    const updatedHistory = [
+      ...decisions.map((d, i) => ({
+        scenarioTitle: scenarios[i]?.setting || `Scenario ${i + 1}`,
+        choiceIndex: d.choiceId.charCodeAt(0) - 65,
+        choiceText: d.choiceText,
+        feedback: 'Logged.',
+        skillsGained: [
+          d.approach === 'analytical'
+            ? 'Data Analysis'
+            : d.approach === 'creative'
+            ? 'Innovation'
+            : d.approach === 'collaborative'
+            ? 'Teamwork'
+            : 'System Thinking',
+        ],
+      })),
+      historyItem,
+    ];
+
+    const nextScenarioIndex = currentScenario + 1;
+    const isCompleted = nextScenarioIndex >= TOTAL_SCENARIOS;
+
+    let score = 0;
+    let evalOutcome = null;
+
+    if (isCompleted) {
       setLoading(true);
       try {
-        const decisionsText = [...decisions, {
-          scenarioIndex: currentScenario,
-          choiceId: chosen.id,
-          choiceText: chosen.text,
-          approach: chosen.approach,
-        }].map((d, i) => `Scenario ${i + 1}: Chose "${d.choiceText}" (${d.approach} approach)`).join('\n');
+        const decisionsText = updatedDecisions
+          .map((d, i) => `Scenario ${i + 1}: Chose "${d.choiceText}" (${d.approach} approach)`)
+          .join('\n');
 
-        const evalOutcome = await callGemini<SimulationOutcome>('outcome_evaluation', {
+        evalOutcome = await callGemini<SimulationOutcome>('outcome_evaluation', {
           career: selectedCareer.title,
           decisions: decisionsText,
         });
         setOutcome(evalOutcome);
-        router.push('/dashboard');
+        score = evalOutcome.matchScore;
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to evaluate outcome');
         setLoading(false);
+        return;
       }
+    }
+
+    // Save simulation run to server database!
+    try {
+      const res = await fetch('/api/simulation/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: currentRunId,
+          careerId: selectedCareer.id,
+          careerTitle: selectedCareer.title,
+          currentScenarioIndex: nextScenarioIndex,
+          history: updatedHistory,
+          score,
+          completed: isCompleted,
+          outcome: evalOutcome,
+        }),
+      });
+
+      if (res.ok) {
+        const resData = await res.json();
+        if (resData.data) {
+          useUserStore.getState().addSimulation(resData.data);
+        }
+      }
+    } catch (saveErr) {
+      console.error('Error syncing simulation run to server:', saveErr);
+    }
+
+    if (isCompleted) {
+      setLoading(false);
+      router.push('/dashboard');
     }
   };
 

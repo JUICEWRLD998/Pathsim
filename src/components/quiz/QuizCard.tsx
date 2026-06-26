@@ -31,6 +31,7 @@ function CardOption({
 }) {
   return (
     <motion.button
+      suppressHydrationWarning
       whileHover={isSelected ? undefined : { y: -2 }}
       whileTap={{ scale: 0.98 }}
       onClick={onSelect}
@@ -105,6 +106,7 @@ function ChipOption({
 }) {
   return (
     <motion.button
+      suppressHydrationWarning
       whileHover={{ y: -1 }}
       whileTap={{ scale: 0.96 }}
       onClick={onSelect}

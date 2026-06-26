@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PROMPTS } from '@/lib/prompts';
 import type { GeminiRequest } from '@/types/api';
+import { db } from '@/lib/db';
+import { getSessionUser } from '@/lib/auth';
 
 export async function POST(req: NextRequest) {
   try {
@@ -26,7 +28,7 @@ export async function POST(req: NextRequest) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'google/gemini-2.0-flash-exp:free',
+        model: 'google/gemini-2.5-flash',
         messages: [
           {
             role: 'system',
@@ -43,7 +45,13 @@ export async function POST(req: NextRequest) {
     if (!response.ok) {
       const errorText = await response.text();
       console.error('OpenRouter error:', errorText);
-      return NextResponse.json({ error: 'AI service error' }, { status: 502 });
+      try {
+        const errorJson = JSON.parse(errorText);
+        const errorMessage = errorJson.error?.message || errorJson.error || 'AI service error';
+        return NextResponse.json({ error: errorMessage, details: errorJson }, { status: response.status });
+      } catch {
+        return NextResponse.json({ error: errorText || 'AI service error' }, { status: response.status });
+      }
     }
 
     const result = await response.json();
@@ -58,6 +66,28 @@ export async function POST(req: NextRequest) {
 
     try {
       const data = JSON.parse(cleaned);
+
+      // If this was a custom career generation, save it to the DB!
+      if (promptKey === 'custom_career_generation') {
+        const user = await getSessionUser();
+        const customCareer = db.createCustomCareer({
+          title: data.title || variables.title || 'Custom Career',
+          cluster: data.cluster || 'tech',
+          color: data.color || '#818cf8',
+          description: data.description || '',
+          salary: data.salary || { entry: 50000, mid: 80000, senior: 120000 },
+          skills: data.skills || [],
+          education: data.education || '',
+          growthRate: data.growthRate || '',
+          dayInLife: data.dayInLife || '',
+          relatedTo: [],
+          iconName: data.iconName || 'Sparkles',
+          isCustom: true,
+          createdBy: user?.id || 'anonymous',
+        });
+        return NextResponse.json({ data: customCareer });
+      }
+
       return NextResponse.json({ data });
     } catch {
       return NextResponse.json({ error: 'Failed to parse AI response', raw }, { status: 500 });

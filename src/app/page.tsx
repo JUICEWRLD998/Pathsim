@@ -16,6 +16,7 @@ import { CAREERS } from '@/lib/careers';
 import { CareerPreviewCards } from '@/components/landing/CareerPreviewCards';
 import { HowItWorks } from '@/components/landing/HowItWorks';
 import { PageWrapper } from '@/components/layout/PageWrapper';
+import { useUserStore } from '@/store/userStore';
 import { Button } from '@/components/ui/Button';
 
 const STATS = [
@@ -80,17 +81,31 @@ export default function LandingPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <Link href="/quiz" passHref legacyBehavior>
-              <Button
-                variant="primary"
-                size="lg"
-                icon={<ArrowRight className="h-4 w-4" />}
-                iconPosition="right"
-                className="w-full sm:w-auto"
-              >
-                Start the Spark Quiz
-              </Button>
-            </Link>
+            {useUserStore.getState().isAuthenticated ? (
+              <Link href="/dashboard" passHref legacyBehavior>
+                <Button
+                  variant="primary"
+                  size="lg"
+                  icon={<ArrowRight className="h-4 w-4" />}
+                  iconPosition="right"
+                  className="w-full sm:w-auto"
+                >
+                  Go to Dashboard
+                </Button>
+              </Link>
+            ) : (
+              <Link href="/quiz" passHref legacyBehavior>
+                <Button
+                  variant="primary"
+                  size="lg"
+                  icon={<ArrowRight className="h-4 w-4" />}
+                  iconPosition="right"
+                  className="w-full sm:w-auto"
+                >
+                  Start the Spark Quiz
+                </Button>
+              </Link>
+            )}
             <Link href="/galaxy" passHref legacyBehavior>
               <Button
                 variant="secondary"
@@ -231,16 +246,29 @@ export default function LandingPage() {
             <p className="mx-auto mb-10 max-w-lg text-sm text-slate-400 sm:text-base leading-relaxed">
               Answer five questions, step into professional simulations, and discover the career that fits your mind.
             </p>
-            <Link href="/quiz" passHref legacyBehavior>
-              <Button
-                variant="primary"
-                size="lg"
-                icon={<ArrowRight className="h-4 w-4" />}
-                iconPosition="right"
-              >
-                Take the Spark Quiz
-              </Button>
-            </Link>
+            {useUserStore.getState().isAuthenticated ? (
+              <Link href="/dashboard" passHref legacyBehavior>
+                <Button
+                  variant="primary"
+                  size="lg"
+                  icon={<ArrowRight className="h-4 w-4" />}
+                  iconPosition="right"
+                >
+                  Go to Dashboard
+                </Button>
+              </Link>
+            ) : (
+              <Link href="/quiz" passHref legacyBehavior>
+                <Button
+                  variant="primary"
+                  size="lg"
+                  icon={<ArrowRight className="h-4 w-4" />}
+                  iconPosition="right"
+                >
+                  Take the Spark Quiz
+                </Button>
+              </Link>
+            )}
           </motion.div>
         </div>
       </section>

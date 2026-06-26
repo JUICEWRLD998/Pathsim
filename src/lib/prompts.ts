@@ -102,4 +102,37 @@ Return ONLY this JSON:
   ]
 }
 `,
+
+  custom_career_generation: `
+You are a career counselor AI. Generate a professional career metadata payload for the custom job title: "{title}".
+
+Assign it to the most relevant cluster of these six options: 'tech', 'creative', 'business', 'science', 'health', 'education'.
+Select a suitable color based on the cluster:
+- tech: "#818cf8"
+- creative: "#f472b6"
+- business: "#fb923c"
+- science: "#34d399"
+- health: "#f87171"
+- education: "#fbbf24"
+
+Select a suitable Lucide icon name from: Code2, ShieldCheck, Layers, PenTool, Activity, GraduationCap, Scale, Stethoscope, Leaf, Building2, Terminal, Gamepad2, BrainCircuit, Sparkles.
+
+Return ONLY this JSON:
+{
+  "title": "{title}",
+  "cluster": "tech/creative/business/science/health/education",
+  "color": "Hex color code",
+  "description": "One-sentence overview of the career.",
+  "salary": {
+    "entry": 60000,
+    "mid": 95000,
+    "senior": 140000
+  },
+  "skills": ["Skill 1", "Skill 2", "Skill 3", "Skill 4"],
+  "education": "Brief description of typical path (e.g., 'CS degree or self-taught')",
+  "growthRate": "+15% by 2030",
+  "dayInLife": "1 sentence describing a typical daily flow in this job.",
+  "iconName": "IconName"
+}
+`
 };
