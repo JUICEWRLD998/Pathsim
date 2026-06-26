@@ -1,5 +1,11 @@
 export type CareerCluster = 'tech' | 'creative' | 'business' | 'science' | 'health' | 'education';
 
+export interface YouTubeVideo {
+  title: string;
+  embedId: string;
+  channelTitle: string;
+}
+
 export interface SalaryRange {
   entry: number;
   mid: number;
@@ -19,6 +25,7 @@ export interface Career {
   dayInLife: string;
   relatedTo: string[];
   iconName: string; // Lucide icon name
+  videos?: YouTubeVideo[];
 }
 
 export interface CareerClusterMeta {

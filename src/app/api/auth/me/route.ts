@@ -18,12 +18,14 @@ export async function GET() {
     };
 
     const simulations = db.getSimulations(user.id);
+    const customCareers = db.getCustomCareers();
 
     return NextResponse.json({
       authenticated: true,
       user,
       profile,
       simulations,
+      customCareers,
     });
   } catch (error) {
     console.error('Fetch session user error:', error);

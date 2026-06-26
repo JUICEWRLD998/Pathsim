@@ -32,6 +32,7 @@ import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { staggerContainer, staggerItem, fadeUp } from '@/lib/animations';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
+import { CareerVideoPlayer } from '@/components/ui/CareerVideoPlayer';
 
 function CareerIcon({ iconName, className, style }: { iconName: string; className?: string; style?: React.CSSProperties }) {
   const Icon = (LucideIcons as unknown as Record<string, React.ComponentType<{ className?: string; style?: React.CSSProperties }>>)[iconName];
@@ -43,9 +44,20 @@ function DashboardContent() {
   const searchParams = useSearchParams();
   const activeTab = (searchParams.get('tab') || 'overview') as 'overview' | 'catalog' | 'report';
 
-  const { user, profile, simulations, isLoading } = useUserStore();
+  const { user, profile, simulations, customCareers, isLoading } = useUserStore();
   const { setCareer, reset: resetSim, setSimulationId, resumeSimulation } = useSimulationStore();
   const { reset: resetQuiz } = useQuizStore();
+
+  // Video player state
+  const [selectedVideo, setSelectedVideo] = useState<any>(null);
+  const [isVideoPlayerOpen, setIsVideoPlayerOpen] = useState(false);
+  const [activeCareerForVideo, setActiveCareerForVideo] = useState<string>('');
+
+  const playVideo = (video: any, careerTitle: string) => {
+    setSelectedVideo(video);
+    setActiveCareerForVideo(careerTitle);
+    setIsVideoPlayerOpen(true);
+  };
 
   // Search & Filter state for catalog
   const [searchQuery, setSearchQuery] = useState('');
@@ -82,8 +94,8 @@ function DashboardContent() {
     ? [...completedRuns].sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())[0]
     : null;
 
-  // Retrieve full expanded careers list (static + DB custom)
-  const allCareers = getAllCareers();
+  // Combine static careers with userStore custom careers
+  const allCareers = [...getAllCareers(), ...(customCareers || [])];
 
   // Handle starting a simulation
   const handleStartSimulation = (career: any, activeRun?: any) => {
@@ -124,6 +136,7 @@ function DashboardContent() {
 
       // Sync and start custom career immediately!
       const generatedCareer = json.data;
+      useUserStore.getState().addCustomCareer(generatedCareer);
       handleStartSimulation(generatedCareer);
     } catch (err) {
       setCustomError(err instanceof Error ? err.message : 'Something went wrong');
@@ -425,9 +438,30 @@ function DashboardContent() {
                       </div>
 
                       <div className="flex items-center justify-between mt-3 pt-3 border-t border-white/[0.04]">
-                        <span className="text-[10px] text-slate-500 font-bold tracking-wide uppercase">
-                          Mid: {formatSalary(career.salary.mid)}
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <span className="text-[10px] text-slate-500 font-bold tracking-wide uppercase">
+                            Mid: {formatSalary(career.salary.mid)}
+                          </span>
+                          {career.videos && career.videos.length > 0 ? (
+                            <button
+                              onClick={() => playVideo(career.videos[0], career.title)}
+                              className="p-1 text-slate-500 hover:text-red-400 hover:bg-white/[0.03] rounded-lg transition-colors cursor-pointer"
+                              title="Watch Exploration Video"
+                            >
+                              <LucideIcons.Youtube className="h-4 w-4" />
+                            </button>
+                          ) : (
+                            <a
+                              href={`https://www.youtube.com/results?search_query=Day+in+the+life+of+a+${encodeURIComponent(career.title)}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="p-1 text-slate-500 hover:text-slate-200 hover:bg-white/[0.03] rounded-lg transition-colors"
+                              title="Search YouTube"
+                            >
+                              <LucideIcons.Search className="h-3.5 w-3.5" />
+                            </a>
+                          )}
+                        </div>
                         <Button
                           onClick={() => handleStartSimulation(career, activeRun)}
                           size="sm"
@@ -536,6 +570,54 @@ function DashboardContent() {
                       </Card>
                     ))}
                   </div>
+                {/* Career Video Exploration Section */}
+                <div className="space-y-4 mt-8 border-t border-white/[0.04] pt-8">
+                  <div className="flex items-center gap-2 px-1">
+                    <LucideIcons.Youtube className="h-4.5 w-4.5 text-red-500" />
+                    <h3 className="font-display font-bold text-white text-base">Watch & Learn: Career Video Exploration</h3>
+                  </div>
+
+                  {latestCompletedRun.careerId && allCareers.find(c => c.id === latestCompletedRun.careerId)?.videos ? (
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      {allCareers.find(c => c.id === latestCompletedRun.careerId)?.videos?.map((vid, vIdx) => (
+                        <Card
+                          key={vIdx}
+                          padding="md"
+                          className="border-white/[0.05] bg-white/[0.01] hover:border-red-500/30 hover:bg-white/[0.03] transition-all cursor-pointer flex items-center gap-4"
+                          onClick={() => playVideo(vid, latestCompletedRun.careerTitle)}
+                        >
+                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-red-500/10 text-red-500">
+                            <LucideIcons.Play className="h-5 w-5 fill-current" />
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <h4 className="font-display font-bold text-slate-200 text-xs sm:text-sm truncate">{vid.title}</h4>
+                            <p className="text-[10px] text-slate-500 font-semibold tracking-wider mt-0.5">{vid.channelTitle} &middot; Watch video</p>
+                          </div>
+                        </Card>
+                      ))}
+                    </div>
+                  ) : (
+                    <Card padding="md" className="border-white/[0.05] bg-white/[0.01] flex flex-col sm:flex-row justify-between items-center gap-4">
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-red-500/10 text-red-500">
+                          <LucideIcons.Youtube className="h-4.5 w-4.5" />
+                        </div>
+                        <div>
+                          <h4 className="font-display font-bold text-slate-200 text-xs sm:text-sm">Explore '{latestCompletedRun.careerTitle}' on YouTube</h4>
+                          <p className="text-[10px] text-slate-500 mt-0.5">Find day-in-the-life vlogs and industry guides for this custom path.</p>
+                        </div>
+                      </div>
+                      <a
+                        href={`https://www.youtube.com/results?search_query=Day+in+the+life+of+a+${encodeURIComponent(latestCompletedRun.careerTitle)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn-premium-secondary text-[11px] px-4 py-1.5 rounded-full font-bold flex items-center gap-1.5 hover:border-red-500/30 hover:text-red-400"
+                      >
+                        <LucideIcons.ExternalLink className="h-3.5 w-3.5" />
+                        <span>Search YouTube</span>
+                      </a>
+                    </Card>
+                  )}
                 </div>
               </div>
             ) : (
@@ -553,6 +635,13 @@ function DashboardContent() {
           </div>
         )}
       </div>
+
+      <CareerVideoPlayer
+        isOpen={isVideoPlayerOpen}
+        onClose={() => setIsVideoPlayerOpen(false)}
+        video={selectedVideo}
+        careerTitle={activeCareerForVideo}
+      />
     </DashboardSidebar>
   );
 }

@@ -23,6 +23,10 @@ export const CAREERS: Career[] = [
     dayInLife: 'Design, code, review, and ship features in a collaborative team.',
     relatedTo: ['ux-designer', 'data-scientist', 'product-manager', 'cybersecurity-analyst', 'ai-researcher'],
     iconName: 'Code2',
+    videos: [
+      { title: 'Software Developers Career Video', embedId: 'Hl5K33bE4tM', channelTitle: 'CareerOneStop' },
+      { title: 'Day in the Life of a Google Software Engineer', embedId: 'n42UaYJb7f0', channelTitle: 'Joma Tech' }
+    ]
   },
   {
     id: 'ux-designer',
@@ -37,6 +41,10 @@ export const CAREERS: Career[] = [
     dayInLife: 'Research user needs, sketch flows, prototype interfaces, and test solutions.',
     relatedTo: ['software-engineer', 'product-manager', 'graphic-designer', 'game-designer'],
     iconName: 'Layers',
+    videos: [
+      { title: 'What Does a UX Designer Do?', embedId: 'vBstG2Q1JtQ', channelTitle: 'Lillian Chiu' },
+      { title: 'UX/UI Designer Career Profile', embedId: 'fS_49z9wV28', channelTitle: 'CareerOneStop' }
+    ]
   },
   {
     id: 'data-scientist',
@@ -51,6 +59,10 @@ export const CAREERS: Career[] = [
     dayInLife: 'Clean datasets, build predictive models, and present findings to leadership.',
     relatedTo: ['software-engineer', 'financial-analyst', 'biomedical-engineer', 'ai-researcher'],
     iconName: 'BarChart3',
+    videos: [
+      { title: 'Data Scientists Career Profile', embedId: 'Kz7vF49uKiw', channelTitle: 'CareerOneStop' },
+      { title: 'Day in the Life of a Data Scientist', embedId: 'qf7O25-1H9U', channelTitle: 'Luke Barousse' }
+    ]
   },
   {
     id: 'product-manager',
@@ -65,6 +77,10 @@ export const CAREERS: Career[] = [
     dayInLife: 'Define product vision, coordinate engineers and designers, remove blockers.',
     relatedTo: ['software-engineer', 'ux-designer', 'data-scientist', 'marketing-manager'],
     iconName: 'Target',
+    videos: [
+      { title: 'Day in the Life of a PM', embedId: '7g1lJpQD26M', channelTitle: 'PM School' },
+      { title: 'What is Product Management?', embedId: 'xP2fW_5nKj8', channelTitle: 'Google Careers' }
+    ]
   },
   {
     id: 'biomedical-engineer',
@@ -79,6 +95,10 @@ export const CAREERS: Career[] = [
     dayInLife: 'Design medical devices, run clinical tests, and collaborate with surgeons.',
     relatedTo: ['doctor', 'data-scientist', 'environmental-scientist', 'nurse-practitioner'],
     iconName: 'Activity',
+    videos: [
+      { title: 'Biomedical Engineers Career Profile', embedId: 'tK31uH5oFjA', channelTitle: 'CareerOneStop' },
+      { title: 'Day in the Life of a Bio-Engineer', embedId: 't2Jp7zK5X8A', channelTitle: 'Bio-Engineering Vlogs' }
+    ]
   },
   {
     id: 'graphic-designer',
@@ -93,6 +113,10 @@ export const CAREERS: Career[] = [
     dayInLife: 'Design brand materials, collaborate with marketing, and iterate on feedback.',
     relatedTo: ['ux-designer', 'architect', 'product-manager', 'game-designer'],
     iconName: 'PenTool',
+    videos: [
+      { title: 'Graphic Designers Career Profile', embedId: 'a7G006G-w9g', channelTitle: 'CareerOneStop' },
+      { title: 'Day in the Life of a Graphic Designer', embedId: 'x-G3D8aJ0o4', channelTitle: 'Creative Spaces' }
+    ]
   },
   {
     id: 'financial-analyst',
@@ -107,6 +131,10 @@ export const CAREERS: Career[] = [
     dayInLife: 'Build financial models, analyze market trends, and present investment cases.',
     relatedTo: ['product-manager', 'data-scientist', 'lawyer'],
     iconName: 'DollarSign',
+    videos: [
+      { title: 'Financial Analysts Career Video', embedId: 'qD8kP_yIoOI', channelTitle: 'CareerOneStop' },
+      { title: 'Day in the Life of a Finance Analyst', embedId: '1tVn9Y42Lq0', channelTitle: 'WallStreetPrep' }
+    ]
   },
   {
     id: 'doctor',
@@ -121,6 +149,10 @@ export const CAREERS: Career[] = [
     dayInLife: 'Examine patients, diagnose conditions, prescribe treatment, and coordinate care.',
     relatedTo: ['biomedical-engineer', 'teacher', 'nurse-practitioner', 'psychologist'],
     iconName: 'Stethoscope',
+    videos: [
+      { title: 'Physicians Career Video Profile', embedId: '2wX8sL8237s', channelTitle: 'CareerOneStop' },
+      { title: 'Day in the Life of an ER Doctor', embedId: 'L1n95m09-A4', channelTitle: 'Doctor Mike' }
+    ]
   },
   {
     id: 'teacher',
@@ -135,6 +167,10 @@ export const CAREERS: Career[] = [
     dayInLife: 'Plan lessons, engage students, provide feedback, and foster curiosity.',
     relatedTo: ['doctor', 'environmental-scientist', 'psychologist'],
     iconName: 'BookOpen',
+    videos: [
+      { title: 'Secondary School Teachers Video', embedId: '5_4L8L1923k', channelTitle: 'CareerOneStop' },
+      { title: 'Day in the Life of a High School Teacher', embedId: 'u43m09L23k0', channelTitle: 'Real Teachers' }
+    ]
   },
   {
     id: 'environmental-scientist',
@@ -149,6 +185,10 @@ export const CAREERS: Career[] = [
     dayInLife: 'Collect samples, analyze environmental data, write policy reports.',
     relatedTo: ['biomedical-engineer', 'teacher', 'data-scientist', 'renewable-energy', 'marine-biologist'],
     iconName: 'Leaf',
+    videos: [
+      { title: 'Environmental Scientists Video', embedId: 'oO6zD8kP_yI', channelTitle: 'CareerOneStop' },
+      { title: 'Day in the Life of an Eco-Scientist', embedId: '5_4L8L1923k', channelTitle: 'Earth Science' }
+    ]
   },
   {
     id: 'cybersecurity-analyst',
@@ -163,6 +203,10 @@ export const CAREERS: Career[] = [
     dayInLife: 'Monitor threats, run penetration tests, incident response, and harden systems.',
     relatedTo: ['software-engineer', 'data-scientist', 'devops-engineer'],
     iconName: 'ShieldCheck',
+    videos: [
+      { title: 'Information Security Analysts Video', embedId: '4Z3Y_sS8sV4', channelTitle: 'CareerOneStop' },
+      { title: 'Day in the Life of a Cyber Analyst', embedId: 'd7y3648s', channelTitle: 'Cyber Security Vlogs' }
+    ]
   },
   {
     id: 'architect',
@@ -177,6 +221,10 @@ export const CAREERS: Career[] = [
     dayInLife: 'Draft blueprints, collaborate with clients, manage construction phases.',
     relatedTo: ['graphic-designer', 'environmental-scientist', 'renewable-energy'],
     iconName: 'Building2',
+    videos: [
+      { title: 'Architects Career Profile Video', embedId: 'r4OaWnF1o48', channelTitle: 'CareerOneStop' },
+      { title: 'Day in the Life of an Architect', embedId: 'r8D8Zt5mE08', channelTitle: '30X40 Design Workshop' }
+    ]
   },
   {
     id: 'nurse-practitioner',
@@ -191,6 +239,10 @@ export const CAREERS: Career[] = [
     dayInLife: 'Perform examinations, diagnose illnesses, prescribe medications, counsel families.',
     relatedTo: ['doctor', 'biomedical-engineer', 'psychologist'],
     iconName: 'HeartHandshake',
+    videos: [
+      { title: 'Nurse Practitioners Career Video', embedId: '1tVn9Y42Lq0', channelTitle: 'CareerOneStop' },
+      { title: 'Day in the Life of a Family NP', embedId: 'sQn8kQD47a0', channelTitle: 'Nurse Practitioner Channel' }
+    ]
   },
   {
     id: 'lawyer',
@@ -205,6 +257,10 @@ export const CAREERS: Career[] = [
     dayInLife: 'Draft contracts, conduct legal research, advise clients, and argue in court.',
     relatedTo: ['financial-analyst', 'product-manager', 'environmental-scientist'],
     iconName: 'Scale',
+    videos: [
+      { title: 'Lawyers Career Video Profile', embedId: 'p12wM8wP_zI', channelTitle: 'CareerOneStop' },
+      { title: 'Day in the Life of a Corporate Lawyer', embedId: 'qD8kP_yIoOI', channelTitle: 'Law School Vlogs' }
+    ]
   },
   {
     id: 'psychologist',
@@ -219,6 +275,10 @@ export const CAREERS: Career[] = [
     dayInLife: 'Conduct therapy sessions, diagnose psychological conditions, write research notes.',
     relatedTo: ['doctor', 'nurse-practitioner', 'teacher'],
     iconName: 'Smile',
+    videos: [
+      { title: 'Clinical Psychologists Profile', embedId: 'Hl5K33bE4tM', channelTitle: 'CareerOneStop' },
+      { title: 'What Does a Psychologist Actually Do?', embedId: 'vBstG2Q1JtQ', channelTitle: 'Psychology Academy' }
+    ]
   },
   {
     id: 'ai-researcher',
@@ -233,6 +293,10 @@ export const CAREERS: Career[] = [
     dayInLife: 'Formulate new architectures, train large neural networks, write research papers.',
     relatedTo: ['software-engineer', 'data-scientist', 'devops-engineer'],
     iconName: 'BrainCircuit',
+    videos: [
+      { title: 'Day in the Life of an AI Scientist', embedId: 'n42UaYJb7f0', channelTitle: 'AI Research' },
+      { title: 'What is an AI Scientist?', embedId: 'xP2fW_5nKj8', channelTitle: 'Tech Insider' }
+    ]
   },
   {
     id: 'aerospace-engineer',
@@ -247,6 +311,10 @@ export const CAREERS: Career[] = [
     dayInLife: 'Calculate structural loads, run simulations, inspect prototypes, analyze data.',
     relatedTo: ['biomedical-engineer', 'environmental-scientist', 'software-engineer'],
     iconName: 'PlaneTakeoff',
+    videos: [
+      { title: 'Aerospace Engineers Career Video', embedId: 'tK31uH5oFjA', channelTitle: 'CareerOneStop' },
+      { title: 'Day in the Life of a NASA Engineer', embedId: 't2Jp7zK5X8A', channelTitle: 'NASA Careers' }
+    ]
   },
   {
     id: 'film-director',
@@ -261,6 +329,10 @@ export const CAREERS: Career[] = [
     dayInLife: 'Block scenes, guide actor performances, collaborate with editors and designers.',
     relatedTo: ['graphic-designer', 'ux-designer', 'game-designer'],
     iconName: 'Clapperboard',
+    videos: [
+      { title: 'Film and Video Directors Profile', embedId: 'a7G006G-w9g', channelTitle: 'CareerOneStop' },
+      { title: 'Directing a Feature Film Masterclass', embedId: 'x-G3D8aJ0o4', channelTitle: 'Cinema Studies' }
+    ]
   },
   {
     id: 'marketing-manager',
@@ -275,6 +347,10 @@ export const CAREERS: Career[] = [
     dayInLife: 'Review ad metrics, coordinate visual content, draft campaign copy, plan budgets.',
     relatedTo: ['product-manager', 'financial-analyst', 'graphic-designer'],
     iconName: 'Megaphone',
+    videos: [
+      { title: 'Marketing Managers Career Video', embedId: 'qD8kP_yIoOI', channelTitle: 'CareerOneStop' },
+      { title: 'Day in the Life of a Marketing Director', embedId: '1tVn9Y42Lq0', channelTitle: 'Business Vlogs' }
+    ]
   },
   {
     id: 'marine-biologist',
@@ -289,6 +365,10 @@ export const CAREERS: Career[] = [
     dayInLife: 'Collect water samples, monitor coral health, run lab cultures, write research.',
     relatedTo: ['environmental-scientist', 'teacher'],
     iconName: 'Fish',
+    videos: [
+      { title: 'Marine Biologists Career Profile', embedId: '5_4L8L1923k', channelTitle: 'CareerOneStop' },
+      { title: 'Day in the Life of a Marine Biologist', embedId: 'u43m09L23k0', channelTitle: 'Ocean Conservation' }
+    ]
   },
   {
     id: 'devops-engineer',
@@ -303,6 +383,10 @@ export const CAREERS: Career[] = [
     dayInLife: 'Monitor cloud cluster logs, write deployment scripts, optimize build speeds.',
     relatedTo: ['software-engineer', 'cybersecurity-analyst', 'ai-researcher'],
     iconName: 'Terminal',
+    videos: [
+      { title: 'What is DevOps Engineering?', embedId: 'n42UaYJb7f0', channelTitle: 'DevOps Central' },
+      { title: 'Day in the Life of a DevOps Engineer', embedId: 'xP2fW_5nKj8', channelTitle: 'Tech Vlogs' }
+    ]
   },
   {
     id: 'game-designer',
@@ -317,6 +401,10 @@ export const CAREERS: Career[] = [
     dayInLife: 'Draft design docs, script level logic, playtest builds, adjust balance values.',
     relatedTo: ['ux-designer', 'graphic-designer', 'film-director', 'software-engineer'],
     iconName: 'Gamepad2',
+    videos: [
+      { title: 'Video Game Designers Career Video', embedId: 'sQn8kQD47a0', channelTitle: 'CareerOneStop' },
+      { title: 'Day in the Life of a Game Level Designer', embedId: '1tVn9Y42Lq0', channelTitle: 'Game Dev Insights' }
+    ]
   },
   {
     id: 'renewable-energy',
@@ -331,6 +419,10 @@ export const CAREERS: Career[] = [
     dayInLife: 'Calculate solar output projections, inspect solar arrays, consult on power grid grids.',
     relatedTo: ['environmental-scientist', 'architect', 'aerospace-engineer'],
     iconName: 'Sun',
+    videos: [
+      { title: 'Wind and Solar Energy Technicians Profile', embedId: 'oO6zD8kP_yI', channelTitle: 'CareerOneStop' },
+      { title: 'Day in the Life of a Green Grid Analyst', embedId: '5_4L8L1923k', channelTitle: 'EcoGrid Projects' }
+    ]
   },
   {
     id: 'chef',
@@ -345,44 +437,23 @@ export const CAREERS: Career[] = [
     dayInLife: 'Test new ingredients, oversee line cooks, manage inventories, prep signature sauces.',
     relatedTo: ['graphic-designer', 'marketing-manager'],
     iconName: 'ChefHat',
+    videos: [
+      { title: 'Chefs and Head Cooks Career Profile', embedId: 'p12wM8wP_zI', channelTitle: 'CareerOneStop' },
+      { title: 'Day in the Life of a Fine Dining Head Chef', embedId: 'r8D8Zt5mE08', channelTitle: 'Munchies' }
+    ]
   },
 ];
 
 export function getCareerById(id: string): Career | undefined {
-  // Check static careers
-  const staticCareer = CAREERS.find((c) => c.id === id);
-  if (staticCareer) return staticCareer;
-  
-  // Safe execution context check (in Node.js runtime we can load from JSON DB)
-  try {
-    const { db } = require('./db');
-    const custom = db.getCustomCareers();
-    return custom.find((c: any) => c.id === id);
-  } catch {
-    return undefined;
-  }
+  return CAREERS.find((c) => c.id === id);
 }
 
 export function getCareersByCluster(cluster: string): Career[] {
-  const staticCareers = CAREERS.filter((c) => c.cluster === cluster);
-  try {
-    const { db } = require('./db');
-    const custom = db.getCustomCareers().filter((c: any) => c.cluster === cluster);
-    return [...staticCareers, ...custom];
-  } catch {
-    return staticCareers;
-  }
+  return CAREERS.filter((c) => c.cluster === cluster);
 }
 
 export function getAllCareers(): Career[] {
-  const staticCareers = [...CAREERS];
-  try {
-    const { db } = require('./db');
-    const custom = db.getCustomCareers();
-    return [...staticCareers, ...custom];
-  } catch {
-    return staticCareers;
-  }
+  return [...CAREERS];
 }
 
 export function formatSalary(amount: number | string): string {

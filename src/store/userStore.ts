@@ -1,10 +1,11 @@
 import { create } from 'zustand';
-import type { User, UserProfile, SimulationRun } from '@/lib/db';
+import type { User, UserProfile, SimulationRun, CustomCareer } from '@/lib/db';
 
 interface UserStore {
   user: Omit<User, 'passwordHash'> | null;
   profile: UserProfile | null;
   simulations: SimulationRun[];
+  customCareers: CustomCareer[];
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
@@ -13,6 +14,7 @@ interface UserStore {
   setProfile: (profile: UserProfile | null) => void;
   setSimulations: (simulations: SimulationRun[]) => void;
   addSimulation: (sim: SimulationRun) => void;
+  addCustomCareer: (career: CustomCareer) => void;
   logout: () => Promise<void>;
 }
 
@@ -20,6 +22,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
   user: null,
   profile: null,
   simulations: [],
+  customCareers: [],
   isAuthenticated: false,
   isLoading: true,
   error: null,
@@ -34,6 +37,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
           user: data.user,
           profile: data.profile,
           simulations: data.simulations,
+          customCareers: data.customCareers || [],
           isAuthenticated: true,
           isLoading: false,
           error: null,
@@ -43,6 +47,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
           user: null,
           profile: null,
           simulations: [],
+          customCareers: [],
           isAuthenticated: false,
           isLoading: false,
         });
@@ -53,6 +58,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
         user: null,
         profile: null,
         simulations: [],
+        customCareers: [],
         isAuthenticated: false,
         isLoading: false,
         error: 'Failed to connect to authentication service',
@@ -76,6 +82,14 @@ export const useUserStore = create<UserStore>((set, get) => ({
     }
   },
 
+  addCustomCareer: (career) => {
+    const list = get().customCareers;
+    const existing = list.findIndex((c) => c.id === career.id);
+    if (existing === -1) {
+      set({ customCareers: [...list, career] });
+    }
+  },
+
   logout: async () => {
     try {
       await fetch('/api/auth/logout', { method: 'POST' });
@@ -86,6 +100,7 @@ export const useUserStore = create<UserStore>((set, get) => ({
         user: null,
         profile: null,
         simulations: [],
+        customCareers: [],
         isAuthenticated: false,
         isLoading: false,
         error: null,
