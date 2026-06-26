@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Compass, Github, Twitter } from 'lucide-react';
+import { Compass, ExternalLink, X } from 'lucide-react';
 
 export function Footer() {
   return (
@@ -46,7 +46,7 @@ export function Footer() {
               className="p-2 text-slate-600 hover:text-slate-300 transition-colors rounded-lg hover:bg-white/[0.05]"
               aria-label="GitHub"
             >
-              <Github className="h-4 w-4" aria-hidden />
+              <ExternalLink className="h-4 w-4" aria-hidden />
             </a>
             <a
               href="https://twitter.com"
@@ -55,7 +55,7 @@ export function Footer() {
               className="p-2 text-slate-600 hover:text-slate-300 transition-colors rounded-lg hover:bg-white/[0.05]"
               aria-label="Twitter"
             >
-              <Twitter className="h-4 w-4" aria-hidden />
+              <X className="h-4 w-4" aria-hidden />
             </a>
           </div>
         </div>
